@@ -70,3 +70,7 @@ class TP(A:Array[Array[Double]], cardinality:Int, maxIteration:Int = 50, optTol:
     u
   }
 }
+
+object TP {
+  def apply(Q: Array[Array[Double]], cardinality: Int): TP = new TP(Q, cardinality)
+}
