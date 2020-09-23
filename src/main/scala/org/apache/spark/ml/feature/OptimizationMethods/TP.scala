@@ -8,6 +8,11 @@ import org.apache.spark.internal.Logging
   * The implementation of code can be found in
   *   1) https://sites.google.com/site/xtyuan1980/publications. (original version)
   *   2) https://github.com/a736ii/EnhancingTPower
+  *
+  *   @param A:  it must be a symmetric positive semidefinite matrix
+  *   @cardinality: it is the number of informative features
+  *   @maxIteration: max number of iteration (default: 50)
+  *   @optTol: optimality tolerance (default: 1e-6)
   */
 class TP(A:Array[Array[Double]], cardinality:Int, maxIteration:Int = 50, optTol:Double = 1e-6, verbose:Boolean = false) extends Logging {
 
