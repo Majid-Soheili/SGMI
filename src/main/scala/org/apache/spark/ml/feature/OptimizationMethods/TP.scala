@@ -20,6 +20,7 @@ class TP(Q:Array[Array[Double]], cardinality:Int, maxIteration:Int = 50, optTol:
 
     logInfo("---------- Truncated Power Method ---------------")
 
+    val start: Long = System.currentTimeMillis()
     val idx = Q.zipWithIndex.map { case (vec, d) => vec(d) }.zipWithIndex.sortBy(_._1).reverse.map(_._2)
     var x0 = Array.fill(Q.length)(0.0)
 
@@ -59,7 +60,7 @@ class TP(Q:Array[Array[Double]], cardinality:Int, maxIteration:Int = 50, optTol:
       f_old = f
       i = i + 1
     }
-
+    logInfo(s"Truncated power method takes ${System.currentTimeMillis() - start} ms, in $i iterations")
     x
   }
 
