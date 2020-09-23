@@ -9,19 +9,19 @@ import org.apache.spark.internal.Logging
   *   1) https://sites.google.com/site/xtyuan1980/publications. (original version)
   *   2) https://github.com/a736ii/EnhancingTPower
   *
-  *   @param A:  it must be a symmetric positive semidefinite matrix
+  *   @param Q:  it must be a symmetric positive semidefinite matrix
   *   @cardinality: it is the number of informative features
   *   @maxIteration: max number of iteration (default: 50)
   *   @optTol: optimality tolerance (default: 1e-6)
   */
-class TP(A:Array[Array[Double]], cardinality:Int, maxIteration:Int = 50, optTol:Double = 1e-6, verbose:Boolean = false) extends Logging {
+class TP(Q:Array[Array[Double]], cardinality:Int, maxIteration:Int = 50, optTol:Double = 1e-6, verbose:Boolean = false) extends Logging {
 
   def getWeights:Array[Double] = {
 
     logInfo("---------- Truncated Power Method ---------------")
 
-    val idx = A.zipWithIndex.map { case (vec, d) => vec(d) }.zipWithIndex.sortBy(_._1).reverse.map(_._2)
-    var x0 = Array.fill(A.length)(0.0)
+    val idx = Q.zipWithIndex.map { case (vec, d) => vec(d) }.zipWithIndex.sortBy(_._1).reverse.map(_._2)
+    var x0 = Array.fill(Q.length)(0.0)
 
     idx.take(cardinality).foreach(i => x0(i) = 1)
     val nx0 = norm(x0)
@@ -29,7 +29,7 @@ class TP(A:Array[Array[Double]], cardinality:Int, maxIteration:Int = 50, optTol:
 
     var x = x0
     // A * x0
-    var s = A.map { row => row.zip(x).map(vv => vv._1 * vv._2).sum }
+    var s = Q.map { row => row.zip(x).map(vv => vv._1 * vv._2).sum }
     // 2 * s
     var g = s.map(_ * 2)
     // x' * s
@@ -41,7 +41,7 @@ class TP(A:Array[Array[Double]], cardinality:Int, maxIteration:Int = 50, optTol:
     while (i < maxIteration) {
 
       // power step
-      s = A.map { row => row.zip(x).map(vv => vv._1 * vv._2).sum }
+      s = Q.map { row => row.zip(x).map(vv => vv._1 * vv._2).sum }
       g = s.map(_ * 2)
 
 
