@@ -7,7 +7,7 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class test_TP extends BasicTest {
 
-  test("Traditional-QPFS") {
+  test("TP-Q") {
 
     val path = "src/test/scala/resources/data/Q.csv"
     val source = scala.io.Source.fromFile(path)
