@@ -78,5 +78,13 @@ class TP(Q:Array[Array[Double]], cardinality:Int, maxIteration:Int = 50, optTol:
 }
 
 object TP {
-  def apply(Q: Array[Array[Double]], cardinality: Int): TP = new TP(Q, cardinality)
+  def apply(Q: Array[Array[Double]], cardinality: Int, isSymmetric: Boolean = true): TP = {
+    if (isSymmetric) new TP(Q, cardinality)
+    else TP(SymmetricMatrix(Q), cardinality)
+  }
+
+  private def SymmetricMatrix(mat: => Array[Array[Double]]): Array[Array[Double]] = {
+    val m_t = mat.transpose
+    mat.zip(m_t).map { case (a1, a2) => a1.zip(a2).map { case (v1, v2) => (v1 + v2) / 2.0 } }
+  }
 }
