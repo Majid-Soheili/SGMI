@@ -50,4 +50,15 @@ object DataSetSchema {
 
   }
 
+  object Synthetic extends baseSchema {
+
+    override def nColumn: Int = 22
+
+    override def fIndexes: Range = 0 to 20
+
+    override def cIndex: Integer = 21
+
+    override def name: String = "synthetic"
+
+  }
 }
