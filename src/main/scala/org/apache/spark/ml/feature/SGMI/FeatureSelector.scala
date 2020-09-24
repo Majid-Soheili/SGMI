@@ -29,11 +29,15 @@ final class FeatureSelector (override val uid: String) extends Estimator[DFSMode
   setDefault(useCatch, false)
   setDefault(OptMethod, "QP")
 
+  def getOptMethod:String = $(OptMethod)
+
   def getMaxBin: Int = $(maxBin)
 
   def getBatchSize: Double = $(batchSize)
 
   def getUseCatch: Boolean = $(useCatch)
+
+  def setOptMethod(name: String): this.type = set(OptMethod, name)
 
   def setMaxBin(num: Int): this.type = set(maxBin, num)
 
@@ -68,8 +72,11 @@ final class FeatureSelector (override val uid: String) extends Estimator[DFSMode
       (t, n)
     }
 
-
-    val weights = Array.emptyDoubleArray
+    val weights = this.getOptMethod match {
+      case "QP" => QPFS(train, nColumns, nInstances)
+      case "SR" => SRFS(train, nColumns, nInstances)
+      case "TP" => TPFS(train, nColumns, nInstances)
+    }
     new DFSModel(uid, weights)
   }
 
