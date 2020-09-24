@@ -2,7 +2,7 @@ package org.apache.spark.ml.feature.SGMI
 
 import org.apache.spark.ml.Estimator
 import org.apache.spark.ml.feature.Model.DFSModel
-import org.apache.spark.ml.feature.OptimizationMethods.{QP, SR}
+import org.apache.spark.ml.feature.OptimizationMethods.{QP, SR, TP}
 import org.apache.spark.ml.linalg.{DenseVector, SparseVector}
 import org.apache.spark.ml.param.{Param, ParamMap, ParamValidators}
 import org.apache.spark.ml.param.shared.{HasFeaturesCol, HasLabelCol}
@@ -98,7 +98,10 @@ final class FeatureSelector (override val uid: String) extends Estimator[DFSMode
     val CMI = DMI.CMI(train, nColumns, nInstances, this.getMaxBin, this.getBatchSize)
     SR(CMI, isSymmetric = false).getWeights
   }
-
+  private def TPFS(train: => RDD[Array[Byte]], nColumns:Int, nInstances:Int):Array[Double] = {
+    val CMI = DMI.CMI(train, nColumns, nInstances, this.getMaxBin, this.getBatchSize)
+    TP(CMI, nColumns - 1, isSymmetric = false).getWeights
+  }
   private def transformColumnar(it: Iterator[Row], nColumn:Int): Iterator[Array[Byte]] = {
 
     val dataPartition = it.toVector
