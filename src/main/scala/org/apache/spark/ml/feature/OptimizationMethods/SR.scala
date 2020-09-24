@@ -9,13 +9,13 @@ import org.apache.spark.internal.Logging
   */
 class SR(H:Array[Array[Double]]) extends Logging {
 
-  def getWeights:Array[Double] = {
+  def getWeights: Array[Double] = {
 
     val nColumns = H.length
     val A: BDM[Double] = BDM(H: _*)
     val es = eigSym(A)
     val lastFeature: Int = nColumns - 2
-    val ev = es.eigenvectors(::, lastFeature)
+    val ev = es.eigenvectors(::, lastFeature) // biggest eigenvector is placed on the end of list
     NormalizeVector(ev).toArray
   }
 
@@ -24,10 +24,10 @@ class SR(H:Array[Array[Double]]) extends Logging {
     vec.mapValues(v => math.abs(v / norm))
   }
 
-
 }
 
 object SR {
+
   def apply(H: Array[Array[Double]], isSymmetric: Boolean = true, isNormalized: Boolean = false): SR = {
     if (isSymmetric && isNormalized)
       new SR(H)
