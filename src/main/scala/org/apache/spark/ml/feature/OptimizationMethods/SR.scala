@@ -5,18 +5,24 @@ import org.apache.spark.internal.Logging
 
 
 /**
-  * Spectral relaxation
+  * Spectral Relaxation
   */
 class SR(H:Array[Array[Double]]) extends Logging {
 
   def getWeights: Array[Double] = {
 
+    logInfo("---------- Spectral Relaxation Method ---------------")
+
+    val start: Long = System.currentTimeMillis()
     val nColumns = H.length
     val A: BDM[Double] = BDM(H: _*)
     val es = eigSym(A)
-    val lastFeature: Int = nColumns - 2
+    val lastFeature: Int = nColumns - 1
     val ev = es.eigenvectors(::, lastFeature) // biggest eigenvector is placed on the end of list
-    NormalizeVector(ev).toArray
+    val weights = NormalizeVector(ev).toArray
+    logInfo(s"Spectral relaxation method takes ${System.currentTimeMillis() - start} ms")
+
+    weights
   }
 
   private def NormalizeVector(vec: BDV[Double]): BDV[Double] = {
