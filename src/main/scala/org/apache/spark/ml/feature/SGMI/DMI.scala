@@ -24,7 +24,7 @@ import org.apache.spark.rdd.RDD
 
 object DMI extends Serializable with Logging {
 
-  def MI(data: => RDD[Array[Byte]], nColumns: Int, nInstances:Int , maxBin: Int, batchSize: Double): Array[Array[Double]] = {
+  def MI(data: => RDD[Array[Byte]], nColumns: Int, nInstances: Int, maxBin: Int, batchSize: Double): Array[Array[Double]] = {
 
     val start: Long = System.currentTimeMillis()
     val nBatch = math.round(1 / batchSize).toInt
@@ -61,7 +61,7 @@ object DMI extends Serializable with Logging {
     miMatrix
   }
 
-  def CMI(data: => RDD[Array[Byte]], nColumns: Int, nInstances:Int, maxBin: Int, batchSize: Double):Array[Array[Double]] = {
+  def CMI(data: => RDD[Array[Byte]], nColumns: Int, nInstances: Int, maxBin: Int, batchSize: Double): Array[Array[Double]] = {
 
     val nFeatures = nColumns - 1
     val z = nColumns - 1
@@ -136,7 +136,7 @@ object DMI extends Serializable with Logging {
     cmiMatrix
   }
 
-  def SU(data: => RDD[Array[Byte]], nColumns: Int, nInstances:Int , maxBin: Int, batchSize: Double): Array[Array[Double]] = {
+  def SU(data: => RDD[Array[Byte]], nColumns: Int, nInstances: Int, maxBin: Int, batchSize: Double): Array[Array[Double]] = {
 
     val miMatrix = MI(data, nColumns, nInstances, maxBin, batchSize)
     val suMatrix = Array.ofDim[Double](nColumns, nColumns)
@@ -169,7 +169,7 @@ object DMI extends Serializable with Logging {
   private def Histogram(vec1: => Array[Byte], vec2: => Array[Byte], maxBin: Int): linalg.Vector = {
 
     val frequencies = Array.ofDim[Double](maxBin, maxBin)
-    (vec1,vec2).zipped.foreach {
+    (vec1, vec2).zipped.foreach {
       case (v1, v2) =>
         frequencies(v1)(v2) += 1
     }
