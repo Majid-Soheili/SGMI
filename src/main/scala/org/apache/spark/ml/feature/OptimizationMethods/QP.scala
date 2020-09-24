@@ -78,7 +78,10 @@ class QP (ff: Array[Array[Double]], fc: Array[Double]) extends Logging {
 
      */
 
-    if( ff.isEmpty || fc.isEmpty) return Array.emptyDoubleArray
+    logInfo("---------- Quadratic Programming Method ---------------")
+
+    val start: Long = System.currentTimeMillis()
+    if (ff.isEmpty || fc.isEmpty) return Array.emptyDoubleArray
 
     val nf = fc.length
 
@@ -88,13 +91,11 @@ class QP (ff: Array[Array[Double]], fc: Array[Double]) extends Logging {
     /* Alpha is a parameter that should balance between ffMI and fcMI */
     val mean_ffMI = 1.0 * ff.map(r => r.sum).sum / (nf * nf)
     val mean_fcMI = 1.0 * fc.sum / nf
-    val alpha = if (a == 1 ) mean_ffMI / (mean_ffMI + mean_fcMI) else a
+    val alpha = if (a == 1) mean_ffMI / (mean_ffMI + mean_fcMI) else a
 
-
-    logInfo("---------- Quadratic Programming ---------------")
     logInfo("Alpha factor is: " + alpha + " | number of features: " + nf)
 
-    if ( 1.0 - alpha < 1e-10)
+    if (1.0 - alpha < 1e-10)
       logWarning("Alpha factor is not valid")
 
     val hMat = ff.map(r => r.map(x => x * (1 - alpha)))
@@ -134,8 +135,10 @@ class QP (ff: Array[Array[Double]], fc: Array[Double]) extends Logging {
     opt.setOptimizationRequest(or)
     val returnCode = opt.optimize()
     val sol = opt.getOptimizationResponse.getSolution
-    sol
 
+    logInfo(s"Quadratic Programming ${System.currentTimeMillis() - start} ms")
+
+    sol
   }
 
   /**
