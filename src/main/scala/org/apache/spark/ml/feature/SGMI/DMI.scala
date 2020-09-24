@@ -22,7 +22,7 @@ import org.apache.spark.rdd.RDD
   * SU(X,Y) = 2 * MI(X,Y) / (H(X) + H(y))
   */
 
-class DMI extends Serializable with Logging {
+object DMI extends Serializable with Logging {
 
   def MI(data: => RDD[Array[Byte]], nColumns: Int, nInstances:Int , maxBin: Int, batchSize: Double): Array[Array[Double]] = {
 
@@ -150,7 +150,7 @@ class DMI extends Serializable with Logging {
     }
     suMatrix
   }
-  
+
   private def Entropy(frequencies: Array[Double], nInstances: Double): Double = {
     frequencies.filter(_ > 0)
       .map(v => v / nInstances)
