@@ -43,6 +43,7 @@ class test_QP extends BasicSparkTest {
     val processedData = featureAssembler.transform(data)
 
     val model = new FeatureSelector()
+      .setOptMethod("QP")
       .setMaxBin(50)
       .setBatchSize(1.0)
       .setFeaturesCol("features")
