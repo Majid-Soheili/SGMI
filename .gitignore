@@ -4,3 +4,4 @@
 target/test-classes/org/apache/spark/ml/feature/OptimizationMethods/test_TP$$anonfun$1.class
 *.class
 *.class
+*.class
