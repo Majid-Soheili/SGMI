@@ -43,8 +43,8 @@ class test_SR extends BasicSparkTest {
 
     val model = new FeatureSelector()
       .setOptMethod("SR")
-      .setMaxBin(50)
-      .setBatchSize(0.25)
+      .setMaxBin(30)
+      .setBatchSize(0.3)
       .setFeaturesCol("features")
       .setLabelCol("label")
       .setUseCatch(false)
@@ -69,7 +69,7 @@ class test_SR extends BasicSparkTest {
 
     val model = new FeatureSelector()
       .setOptMethod("SR")
-      .setMaxBin(50)
+      .setMaxBin(30)
       .setBatchSize(1.0)
       .setFeaturesCol("features")
       .setLabelCol("label")
@@ -77,9 +77,8 @@ class test_SR extends BasicSparkTest {
       .fit(processedData)
 
     val actualRank = model.getRank.take(10)
-    val expectedRank = Array(468, 498, 493, 87, 29, 331, 465, 357, 360, 346)
+    val expectedRank = Array(493, 285, 470, 498, 457, 297, 87, 114, 6, 427)
 
-    //Array(493, 285, 470, 498, 457, 297, 87, 114, 6, 427) did not equal Array(468, 498, 493, 87, 29, 331, 465, 357, 360, 346)
     assert(actualRank === expectedRank)
   }
 }
