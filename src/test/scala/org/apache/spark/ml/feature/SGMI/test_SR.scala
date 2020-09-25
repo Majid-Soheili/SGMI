@@ -9,7 +9,7 @@ class test_SR extends BasicSparkTest {
 
   test(testName = "SGMI_SR-Synthetic") {
 
-    val spark = createSession("SGMI_SRFS-synthetic")
+    val spark = createSession("SGMI_SR-synthetic")
     val schema = DataSetSchema.Synthetic
     val data = readDataFrame(spark, schema)
     val featureAssembler = new VectorAssembler()
