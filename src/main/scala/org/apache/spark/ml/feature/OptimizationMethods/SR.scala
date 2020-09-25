@@ -60,3 +60,25 @@ object SR {
   }
 
 }
+
+/*
+def multGen[U,V, W](times: Function2[T,U,V], plus: Function2[W,V,W], plusId: W)
+  	(other: Matrix[U]) = {
+    val (rows, columns) = dim
+    val (orows, ocolumns) = other.dim
+    if (columns != orows) throw new Error("Invalid dimensions for Matrix.mult()")
+
+    val result = Matrix[W](rows,ocolumns)
+
+    for (i <- 0 until rows; j <- 0 until ocolumns){
+      var accum = plusId
+      for (k <- 0 until columns){
+        val p = times(this(i,k), other(k,j))
+        accum = plus(accum, p)
+      }
+      result(i)(j) = accum
+    }
+    result
+  }
+
+ */
