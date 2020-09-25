@@ -13,7 +13,14 @@ sealed trait DataSetSchema extends Serializable {
 
   def fNamePrefix: String = "col"
 
-  def fNames: IndexedSeq[String] = for (i <- fIndexes) yield fNamePrefix + i
+  // feature names
+  def fNames: IndexedSeq[String] = fIndexes.map(id => fNamePrefix + id)
+
+  // continuous feature names
+  def cofNames: IndexedSeq[String] = continuousFeaturesInfo.map(id => fNamePrefix + id).toIndexedSeq
+
+  // categorical feature names
+  def cafNames: IndexedSeq[String] = categoricalFeaturesInfo.map(id => fNamePrefix + id).toIndexedSeq
 
   def cName: String = "label"
 
@@ -36,6 +43,7 @@ sealed trait DataSetSchema extends Serializable {
   def binaryRecordLength: Int = 0
 
 }
+
 object DataSetSchema {
 
   case object Alpha extends DataSetSchema {
