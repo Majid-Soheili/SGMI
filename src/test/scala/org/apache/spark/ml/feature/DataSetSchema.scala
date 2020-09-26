@@ -6,7 +6,7 @@ object DataSetSchema {
 
   trait baseSchema {
 
-    def nColumn: Int
+    def nColumns: Int
 
     def fIndexes: Range // feature indexes
 
@@ -29,7 +29,7 @@ object DataSetSchema {
 
   object Musk extends baseSchema {
 
-    override def nColumn: Int = 167
+    override def nColumns: Int = 167
 
     override def fIndexes: Range = 0 to 165
 
@@ -40,7 +40,7 @@ object DataSetSchema {
 
   object Alpha extends baseSchema {
 
-    override def nColumn: Int = 501
+    override def nColumns: Int = 501
 
     override def fIndexes: Range = 0 to 499
 
@@ -52,7 +52,7 @@ object DataSetSchema {
 
   object Synthetic extends baseSchema {
 
-    override def nColumn: Int = 22
+    override def nColumns: Int = 22
 
     override def fIndexes: Range = 0 to 20
 
