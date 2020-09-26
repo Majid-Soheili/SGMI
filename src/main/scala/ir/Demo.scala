@@ -41,7 +41,7 @@ object Demo extends BaseApp {
       else
         super.readData(spark, schema).repartition(numberPartitions)
 
-      super.WriteSimpleDiscretizer(train, 10, schema)
+      super.WriteSimpleDiscretizer(train, nBuckets = 10, schema)
 
       val discTrain = super.LoadSimpleDiscretizer(train, schema)
 
