@@ -7,7 +7,7 @@ import org.apache.spark.ml.feature.SGMI.FeatureSelector
  * Experimental Study
  * Change, Method name to one of (QP, SR, TP)
  * Change, Dataset
- *
+ * Current is FD dataset which is a binary file
  */
 object Demo extends BaseApp {
 
