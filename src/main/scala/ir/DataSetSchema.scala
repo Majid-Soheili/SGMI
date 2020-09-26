@@ -12,6 +12,8 @@ sealed trait DataSetSchema extends Serializable {
 
   def name: String // name of data set
 
+  def fileName: String // name of data set file
+
   def fNamePrefix: String = "col"
 
   // feature names
@@ -57,6 +59,8 @@ object DataSetSchema {
 
     override def name: String = "Alpha"
 
+    override def fileName: String = "Alpha.csv"
+
     override def hasNegativeLabel: Boolean = true
 
     override def numClasses: Int = 2
@@ -75,6 +79,8 @@ object DataSetSchema {
     override def cIndex: Integer = 500
 
     override def name: String = "Beta"
+
+    override def fileName: String = "Beta.csv"
 
     override def hasNegativeLabel: Boolean = true
 
@@ -95,6 +101,8 @@ object DataSetSchema {
 
     override def name: String = "Delta"
 
+    override def fileName: String = "Delta.csv"
+
     override def hasNegativeLabel: Boolean = true
 
     override def numClasses: Int = 2
@@ -113,6 +121,8 @@ object DataSetSchema {
     override def cIndex: Integer = 1156
 
     override def name: String = "OCR"
+
+    override def fileName: String = "OCR.dat"
 
     override def hasNegativeLabel: Boolean = true
 
@@ -143,6 +153,8 @@ object DataSetSchema {
 
     override def name: String = "FD"
 
+    override def fileName: String = "FD.dat"
+
     override def hasNegativeLabel: Boolean = true
 
     override def numClasses: Int = 2
@@ -172,6 +184,8 @@ object DataSetSchema {
 
     override def name: String = "Epsilon"
 
+    override def fileName: String = "Epsilon.csv"
+
     override def hasNegativeLabel: Boolean = true
 
     override def numClasses: Int = 2
@@ -190,6 +204,8 @@ object DataSetSchema {
     override def cIndex: Integer = 631
 
     override def name: String = "ECBDL"
+
+    override def fileName: String = "ECBDL.csv"
 
     override def hasNegativeLabel: Boolean = false
 
