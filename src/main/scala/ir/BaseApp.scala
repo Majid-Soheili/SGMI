@@ -24,14 +24,18 @@ trait BaseApp extends Logging {
   def createSession(appName: String): SparkSession = if (localExecution) createStandaloneSession(appName) else createClusterSession(appName)
 
   def createStandaloneSession(appName: String, numberCores: Int = 5): SparkSession = {
+    System.setProperty("hadoop.home.dir", "C:///Hadoop")
     val session = SparkSession
       .builder()
       .appName(name = appName)
       .config("spark.master", s"local[$numberCores]")
       .config("spark.eventLog.enabled", value = true)
       .config("spark.driver.maxResultSize", "4g")
+      .config("spark.executor.memory", "4g")
       .config("spark.eventLog.dir", "file:///D:/eventLogging/")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+      .config("spark.sql.warehouse-dir", "/spark-warehouse")
+      .enableHiveSupport()
       .getOrCreate()
 
     session.sparkContext.hadoopConfiguration.set("dfs.block.size", "128m")

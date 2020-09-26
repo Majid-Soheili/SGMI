@@ -15,7 +15,7 @@ object Demo extends BaseApp {
 
     localExecution = args.length == 0
     val (method, schema, numberPartitions) = if (localExecution) {
-      ("QP", DataSetSchema.FD, 1.toShort)
+      ("QP", DataSetSchema.Alpha, 1.toShort)
     }
     else {
       val mtdName = args(0)
@@ -40,6 +40,8 @@ object Demo extends BaseApp {
         super.readData(spark, schema)
       else
         super.readData(spark, schema).repartition(numberPartitions)
+
+      train.write.csv("Test.csv")
 
       super.WriteSimpleDiscretizer(train, nBuckets = 10, schema)
 
