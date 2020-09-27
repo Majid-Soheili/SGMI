@@ -24,14 +24,18 @@ trait BaseApp extends Logging {
   def createSession(appName: String): SparkSession = if (localExecution) createStandaloneSession(appName) else createClusterSession(appName)
 
   def createStandaloneSession(appName: String, numberCores: Int = 5): SparkSession = {
+    System.setProperty("hadoop.home.dir", "C:///Hadoop")
     val session = SparkSession
       .builder()
       .appName(name = appName)
       .config("spark.master", s"local[$numberCores]")
       .config("spark.eventLog.enabled", value = true)
       .config("spark.driver.maxResultSize", "4g")
+      .config("spark.executor.memory", "4g")
       .config("spark.eventLog.dir", "file:///D:/eventLogging/")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+      .config("spark.sql.warehouse-dir", "D:///spark-warehouse")
+      .enableHiveSupport()
       .getOrCreate()
 
     session.sparkContext.hadoopConfiguration.set("dfs.block.size", "128m")
@@ -66,7 +70,10 @@ trait BaseApp extends Logging {
     val path = if (localExecution) LOCAL_FILE_PREFIX + s.fileName
     else CLUSTER_FILE_PREFIX + s.fileName
 
+    //spark.read.format("binaryFile")
+
     val rdd = spark.sparkContext.binaryRecords(path, s.binaryRecordLength)
+      .map(a => a.map(_.toString.toDouble))
       .map(Row.fromSeq(_))
     spark.createDataFrame(rdd, s.Schema)
   }
@@ -85,6 +92,7 @@ trait BaseApp extends Logging {
       .setInputCols(continuous)
       .setOutputCols(continuousDisc)
       .setNumBuckets(nBuckets)
+      .setHandleInvalid("keep")
 
     val assembler = new VectorAssembler()
       .setInputCols(continuousDisc)
