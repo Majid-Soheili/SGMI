@@ -34,7 +34,7 @@ trait BaseApp extends Logging {
       .config("spark.executor.memory", "4g")
       .config("spark.eventLog.dir", "file:///D:/eventLogging/")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      .config("spark.sql.warehouse-dir", "/spark-warehouse")
+      .config("spark.sql.warehouse-dir", "D:///spark-warehouse")
       .enableHiveSupport()
       .getOrCreate()
 
@@ -70,7 +70,10 @@ trait BaseApp extends Logging {
     val path = if (localExecution) LOCAL_FILE_PREFIX + s.fileName
     else CLUSTER_FILE_PREFIX + s.fileName
 
+    //spark.read.format("binaryFile")
+
     val rdd = spark.sparkContext.binaryRecords(path, s.binaryRecordLength)
+      .map(a => a.map(_.toString.toDouble))
       .map(Row.fromSeq(_))
     spark.createDataFrame(rdd, s.Schema)
   }
@@ -89,6 +92,7 @@ trait BaseApp extends Logging {
       .setInputCols(continuous)
       .setOutputCols(continuousDisc)
       .setNumBuckets(nBuckets)
+      .setHandleInvalid("keep")
 
     val assembler = new VectorAssembler()
       .setInputCols(continuousDisc)
