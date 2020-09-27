@@ -15,7 +15,7 @@ object Demo extends BaseApp {
 
     localExecution = args.length == 0
     val (method, schema, numberPartitions) = if (localExecution) {
-      ("QP", DataSetSchema.Alpha, 1.toShort)
+      ("QP", DataSetSchema.Epsilon, 1.toShort)
     }
     else {
       val mtdName = args(0)
@@ -41,11 +41,9 @@ object Demo extends BaseApp {
       else
         super.readData(spark, schema).repartition(numberPartitions)
 
-      train.write.csv("Test.csv")
-
-      super.WriteSimpleDiscretizer(train, nBuckets = 10, schema)
-
       val discTrain = super.LoadSimpleDiscretizer(train, schema)
+
+      println(discTrain.count())
 
       val model = new FeatureSelector()
         .setOptMethod(method)
